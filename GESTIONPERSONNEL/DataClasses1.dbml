@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="GESTIONPERSONNEL" Class="DataClasses1DataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=.;Initial Catalog=GESTIONPERSONNEL;Integrated Security=True" SettingsObjectName="GESTIONPERSONNEL.Properties.Settings" SettingsPropertyName="GESTIONPERSONNELConnectionString1" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.PROFESSION" Member="PROFESSIONs">
+    <Type Name="PROFESSION">
+      <Column Name="CODE_PROFESSION" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="INTITULE" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="SALAIRE" Type="System.Single" DbType="Real" CanBeNull="true" />
+      <Column Name="PRIME" Type="System.Single" DbType="Real" CanBeNull="true" />
+      <Association Name="PROFESSION_TRAVAIL" Member="TRAVAILs" ThisKey="CODE_PROFESSION" OtherKey="CODE_PROFESSION" Type="TRAVAIL" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TRAVAIL" Member="TRAVAILs">
+    <Type Name="TRAVAIL">
+      <Column Name="CIN" Type="System.String" DbType="VarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CODE_PROFESSION" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="DATE_TRAVAIL" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="DUREE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="PROFESSION_TRAVAIL" Member="PROFESSION" ThisKey="CODE_PROFESSION" OtherKey="CODE_PROFESSION" Type="PROFESSION" IsForeignKey="true" />
+      <Association Name="PERSONNEL_TRAVAIL" Member="PERSONNEL" ThisKey="CIN" OtherKey="CIN" Type="PERSONNEL" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CONGE" Member="CONGEs">
+    <Type Name="CONGE">
+      <Column Name="CIN" Type="System.String" DbType="VarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="DATE_CONGE" Type="System.DateTime" DbType="Date NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="DUREE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ETAT" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Association Name="PERSONNEL_CONGE" Member="PERSONNEL" ThisKey="CIN" OtherKey="CIN" Type="PERSONNEL" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ADMIN" Member="ADMINs">
+    <Type Name="ADMIN">
+      <Column Name="USERNAME" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="PASSWORD" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="CODE" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PERSONNEL" Member="PERSONNELs">
+    <Type Name="PERSONNEL">
+      <Column Name="CIN" Type="System.String" DbType="VarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="NOM" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="PRENOM" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="ADRESSE" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="NUMTEL" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="image" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Association Name="PERSONNEL_TRAVAIL" Member="TRAVAILs" ThisKey="CIN" OtherKey="CIN" Type="TRAVAIL" />
+      <Association Name="PERSONNEL_CONGE" Member="CONGEs" ThisKey="CIN" OtherKey="CIN" Type="CONGE" />
+      <Association Name="PERSONNEL_USER" Member="USER" ThisKey="CIN" OtherKey="CIN" Type="USER" Cardinality="One" />
+    </Type>
+  </Table>
+  <Table Name="dbo.USERS" Member="USERs">
+    <Type Name="USER">
+      <Column Name="CIN" Type="System.String" DbType="VarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="USERNAME" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="PASSWORD" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Association Name="PERSONNEL_USER" Member="PERSONNEL" ThisKey="CIN" OtherKey="CIN" Type="PERSONNEL" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>
